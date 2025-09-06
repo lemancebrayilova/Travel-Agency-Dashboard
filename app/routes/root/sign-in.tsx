@@ -1,9 +1,19 @@
-import { Link } from "react-router";
+import { Link, redirect } from "react-router";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
+import { loginWithGoogle } from "~/appwrite/auth";
+import { account } from "~/appwrite/client";
+
+export async function clientLoader() {
+    try {
+        const user = await account.get();
+        if(!user.$id) return redirect('/')
+
+    } catch (e) {
+        console.log('Error fetching user', e)
+    }
+}
 
 const SignIn = () => {
-    const handleSignIn = async () => {};
-
     return (
         <main className="auth">
             <section className="size-full glassmorphism flex-center px-6">
@@ -26,7 +36,7 @@ const SignIn = () => {
                         type="button"
                         iconCss="e-search-icon"
                         className="button-class !h-11 !w-full"
-                        onClick={handleSignIn}
+                        onClick={loginWithGoogle}
                     >
                         <img 
                             src="/assets/icons/google.svg"
