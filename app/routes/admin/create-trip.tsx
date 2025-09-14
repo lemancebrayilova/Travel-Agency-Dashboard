@@ -55,8 +55,32 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
                                 }
                             }}
                             allowFiltering
+                            filtering={(e) => {
+                                const query = e.text.toLowerCase();
+
+                                e.updateData(
+                                    countries.filter((country) => country.name.toLowerCase().includes(query)).map(((country) => ({
+                                        text: country.name,
+                                        value: country.value,
+                                        flag: country.flag
+                                    })))
+                                )
+                            }}
                         /> 
-                    </div> 
+                    </div>
+
+                    <div>
+                        <label htmlFor="duration">Duration</label>
+
+                        <input
+                            id="duration"
+                            name="duration"
+                            type="number"
+                            placeholder="Enter a number of days (5, 12 ... )"
+                            className="form-input placeholder:text-gray-100"
+                            onChange={(e) => handleChange('duration', Number(e.target.value))}
+                        />
+                    </div>
                 </form> 
             </section> 
         </main> 
