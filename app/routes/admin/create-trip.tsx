@@ -1,7 +1,7 @@
 import { Header } from "../../../components";
 import { ComboBoxComponent } from "@syncfusion/ej2-react-dropdowns";
 import type { Route } from "./+types/create-trip";
-import { comboBoxItems, selectItems } from "~/constants";
+import { comboBoxItems, groupTypes, interests, selectItems, travelStyles } from "~/constants";
 import { cn, formatKey } from "~/lib/utils";
 import { LayerDirective, LayersDirective, MapsComponent } from "@syncfusion/ej2-react-maps";
 import { useState } from "react";
@@ -67,8 +67,19 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
         }
 
         try {
-            console.log('user', user);
-            console.log('formData', formData);
+            const response = await fetch('/api/create-trip', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    country: formData.country,
+                    numberOfDays: formData.duration,
+                    travelStyle: formData.travelStyle,
+                    interests: formData.interest,
+                    budget: formData.budget,
+                    groupType: formData.groupType,
+                    userId: user.$id
+                })
+            })
         } catch (e) {
             console.error('Error generating trip', e);
         } finally {
